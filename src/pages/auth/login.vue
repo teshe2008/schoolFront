@@ -2,10 +2,10 @@
   <div class="q-pa-md q-gutter-sm">
     <q-btn
       label="login"
-      class="bg-secondary text-primary"
+      class="bg-primary text-secondary"
       @click="persistent = true"
     />
-    <q-dialog v-model="persistent" persistent transition-show="flip-down" transition-hide="flip-up">
+    <q-dialog v-model="persistent" persistent transition-show="rotate" transition-hide="rotate">
       <q-card
         style="max-width: 750px;min-width: 650px;" id="loginModal">
         <q-card-section>
@@ -24,13 +24,23 @@
               <q-card class="content-center content-center">
                 <q-icon :name="matPerson" size="8em" class="bg-secondary text-white q-ma-sm"
                         style="border-radius: 50%; margin-left: 35%;" />
-                <q-form class="bg-white q-pa-lg">
-                  <q-input label="User name" standout="bg-primary text-secondary" class="q-mb-sm" type="text">
+                <q-form class="bg-white q-pa-lg" @submit.prevent="authenticate" ref="myForm">
+                  <q-input
+                    label="User name"
+                    standout="bg-primary text-secondary"
+                    class="q-mb-sm"
+                    type="text"
+                    v-model="formData.userName">
                     <template v-slot:append>
                       <q-icon name="person" />
                     </template>
                   </q-input>
-                  <q-input label="Password" standout="bg-primary text-secondary" type="password">
+                  <q-input
+                    label="Password"
+                    standout="bg-primary text-secondary"
+                    type="password"
+                    v-model="formData.password"
+                  >
                     <template v-slot:append>
                       <q-icon name="key" />
                     </template>
@@ -38,7 +48,9 @@
                   <q-btn
                     class="text-white bg-primary q-ma-sm text-center q-ml-auto q-ml-lg"
                     label="login"
+                    type="submit"
                     style="margin-left: 40%;"
+                    @click="authenticate"
                   />
                 </q-form>
 
@@ -57,16 +69,73 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onBeforeUnmount } from "vue";
 import { matPerson } from "@quasar/extras/material-icons";
+import { useRouter } from "vue-router";
+import { useQuasar, QSpinnerFacebook } from "quasar";
+import { useAuthStore } from "stores/auth-store";
+import { api } from "boot/axios";
 
 export default {
   name: "LoginComponent",
   setup() {
+    const formData = ref({
+      userName: "",
+      password: ""
+    });
+    const router = useRouter();
+    const $q = useQuasar();
+    const myForm = ref(null);
+    const authStore = useAuthStore();
+    let timer;
+
+    function validate() {
+      this.$refs.myForm.validate().then(success => {
+        return success;
+      });
+    }
+
+    function showLoading() {
+      $q.loading.show({
+        spinner: QSpinnerFacebook,
+        spinnerColor: "primary",
+        spinnerSize: 140,
+        backgroundColor: "secondary",
+        messageColor: "black"
+      });
+      timer = setTimeout(() => {
+        $q.loading.hide();
+        timer = void 0;
+      }, 2000);
+    }
+
+
+    function authenticate() {
+      showLoading();
+      authStore.login(formData.value.userName, formData.value.password, $q.platform.is.desktop);
+
+    }
+
+    onBeforeUnmount(() => {
+      if (timer !== void 0) {
+        clearTimeout(timer);
+        $q.loading.hide();
+      }
+    });
     return {
       persistent: ref(false),
-      matPerson
+      matPerson,
+      formData,
+      myForm,
+      validate,
+      showLoading,
+      authStore,
+      authenticate
+
     };
+  },
+  mounted() {
+    this.authStore.getToken();
   }
 };
 
