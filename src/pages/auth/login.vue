@@ -50,7 +50,6 @@
                     label="login"
                     type="submit"
                     style="margin-left: 40%;"
-                    @click="authenticate"
                   />
                 </q-form>
 
@@ -112,8 +111,9 @@ export default {
 
     function authenticate() {
       showLoading();
-      authStore.login(formData.value.userName, formData.value.password, $q.platform.is.desktop);
-
+      if (authStore.login(formData.value.userName, formData.value.password)) {
+        return router.push("home");
+      }
     }
 
     onBeforeUnmount(() => {
@@ -135,7 +135,6 @@ export default {
     };
   },
   mounted() {
-    this.authStore.getToken();
   }
 };
 
