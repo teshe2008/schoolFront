@@ -1,25 +1,13 @@
 import { boot } from "quasar/wrappers";
 
 export default boot(({ router, store }) => {
-  router.beforeEach((to, from, next) => {
-    if (to.matched.some((record) => record.meta.requiresAuth)) {
-      if (localStorage.getItem("authUser") == null) {
-        next({
-          path: "/",
-          params: { nextUrl: to.fullPath }
-        });
-      } else {
-        if (!store.state.isAuthenticated) {
-          next({
-            path: "/",
-            params: { nextUrl: to.fullPath }
-          });
-        } else {
-          return router.push("home");
-        }
-      }
+  router.beforeEach((to, from) => {
+    if (localStorage.getItem("authUser") !== null && to.name !== "home") {
+      return "home";
     } else {
-      next();
+      if (localStorage.getItem("authUser") == null && to.name !== "welcome" && to.meta.requiresAuth) {
+        return "/";
+      }
     }
   });
 });
