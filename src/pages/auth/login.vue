@@ -30,7 +30,11 @@
                     standout="bg-primary text-secondary"
                     class="q-mb-sm"
                     type="text"
-                    v-model="formData.userName">
+                    v-model="formData.userName"
+                    lazy-rules
+                    :rules="[ val=>!!val || 'field can not be empty',
+                    val=>val.length>=5 || 'min character should be 5']"
+                  >
                     <template v-slot:append>
                       <q-icon name="person" />
                     </template>
@@ -40,6 +44,8 @@
                     standout="bg-primary text-secondary"
                     type="password"
                     v-model="formData.password"
+                    lazy-rules
+                    :rules="[ val=>!!val || 'field can not be empty']"
                   >
                     <template v-slot:append>
                       <q-icon name="key" />
@@ -73,8 +79,6 @@ import { matPerson } from "@quasar/extras/material-icons";
 import { useRouter } from "vue-router";
 import { useQuasar, QSpinnerFacebook } from "quasar";
 import { useAuthStore } from "stores/auth-store";
-import { api } from "boot/axios";
-
 export default {
   name: "LoginComponent",
   setup() {
