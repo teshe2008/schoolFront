@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { api } from "boot/axios";
 import { Notify, useQuasar } from "quasar";
+import axios from "axios";
 
 export const useAuthStore = defineStore("auth", {
   state: () => {
@@ -13,10 +14,12 @@ export const useAuthStore = defineStore("auth", {
     currentUser: (state) => state.authUser
   },
   actions: {
+
     async login(userName, Password) {
       const store = useAuthStore();
       const $q = useQuasar();
-      await api.post("/login", {
+      await api.get('/sanctum/csrf-cookie').then(response => {
+         api.post("/login", {
         "user_name": userName,
         "password": Password
       }).then(response => {
@@ -34,6 +37,7 @@ export const useAuthStore = defineStore("auth", {
           actions: [{ icon: "close", color: "white" }]
         });
         return false;
+      });
       });
     }
   }
