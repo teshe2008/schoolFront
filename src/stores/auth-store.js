@@ -14,11 +14,12 @@ export const useAuthStore = defineStore("auth", {
     currentUser: (state) => state.authUser
   },
   actions: {
+
     async login(userName, Password) {
       const store = useAuthStore();
       const $q = useQuasar();
-      axios.get('/sanctum/csrf-cookie').then(response => {
-       api.post("/login", {
+      await api.get('/sanctum/csrf-cookie').then(response => {
+         api.post("/login", {
         "user_name": userName,
         "password": Password
       }).then(response => {
