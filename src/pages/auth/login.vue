@@ -12,7 +12,7 @@
           <q-card-actions>
             <q-toolbar-title class="text-secondary">Login</q-toolbar-title>
             <q-btn rounded v-close-popup round dense icon="close" icon-right="true"
-                   class="float-right text-secondary"/>
+                   class="float-right text-secondary" />
           </q-card-actions>
         </q-card-section>
 
@@ -23,16 +23,20 @@
             <div class="col-7">
               <q-card class="content-center content-center">
                 <q-icon :name="matPerson" size="8em" class="bg-secondary text-white q-ma-sm"
-                        style="border-radius: 50%; margin-left: 35%;"/>
+                        style="border-radius: 50%; margin-left: 35%;" />
                 <q-form class="bg-white q-pa-lg" @submit.prevent="authenticate" ref="myForm">
                   <q-input
                     label="User name"
                     standout="bg-primary text-secondary"
                     class="q-mb-sm"
                     type="text"
-                    v-model="formData.userName">
+                    v-model="formData.userName"
+                    lazy-rules
+                    :rules="[ val=>!!val || 'field can not be empty',
+                    val=>val.length>=5 || 'min character should be 5']"
+                  >
                     <template v-slot:append>
-                      <q-icon name="person"/>
+                      <q-icon name="person" />
                     </template>
                   </q-input>
                   <q-input
@@ -40,9 +44,11 @@
                     standout="bg-primary text-secondary"
                     type="password"
                     v-model="formData.password"
+                    lazy-rules
+                    :rules="[ val=>!!val || 'field can not be empty']"
                   >
                     <template v-slot:append>
-                      <q-icon name="key"/>
+                      <q-icon name="key" />
                     </template>
                   </q-input>
                   <q-btn
@@ -68,12 +74,11 @@
 </template>
 
 <script>
-import {onBeforeUnmount, ref} from "vue";
-import {matPerson} from "@quasar/extras/material-icons";
-import {useRouter} from "vue-router";
-import {QSpinnerFacebook, useQuasar} from "quasar";
-import {useAuthStore} from "stores/auth-store";
-
+import { ref, onBeforeUnmount } from "vue";
+import { matPerson } from "@quasar/extras/material-icons";
+import { useRouter } from "vue-router";
+import { useQuasar, QSpinnerFacebook } from "quasar";
+import { useAuthStore } from "stores/auth-store";
 export default {
   name: "LoginComponent",
   setup() {
