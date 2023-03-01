@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import { api } from "boot/axios";
-import { Notify, useQuasar } from "quasar";
-import axios from "axios";
+import { useQuasar } from "quasar";
 
 export const useAuthStore = defineStore("auth", {
   state: () => {
     return {
       authUser: localStorage.getItem("authUser"),
+      isLoggedIn: localStorage.getItem("isLoggedIn"),
       device_name: null
     };
   },
@@ -16,28 +16,21 @@ export const useAuthStore = defineStore("auth", {
   actions: {
 
     async login(userName, Password) {
-      const store = useAuthStore();
-      const $q = useQuasar();
-      await api.get('/sanctum/csrf-cookie').then(response => {
-         api.post("/login", {
+      await api.post("/login", {
         "user_name": userName,
         "password": Password
       }).then(response => {
         if (response.status === 200) {
           localStorage.setItem("authUser", response.data.token);
-          return true;
+          useAuthStore().$state.isLoggedIn = true;
+          localStorage.setItem("isLoggedIn", true);
+          if (useAuthStore().$state.isLoggedIn) {
+            location.reload();
+          }
         }
       }).catch(error => {
-        Notify.create({
-          message: error.errorText + "with status code" + error.errorCode,
-          position: "top-right",
-          timeout: 3000,
-          color: "red",
-          textColor: "white",
-          actions: [{ icon: "close", color: "white" }]
-        });
+        console.log(error);
         return false;
-      });
       });
     }
   }
