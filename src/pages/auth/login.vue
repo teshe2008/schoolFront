@@ -24,7 +24,7 @@
               <q-card class="content-center content-center">
                 <q-icon :name="matPerson" size="8em" class="bg-secondary text-white q-ma-sm"
                         style="border-radius: 50%; margin-left: 35%;" />
-                <q-form class="bg-white q-pa-lg" @submit.prevent="authenticate" ref="myForm">
+                <q-form class="bg-white q-pa-lg" @submit="authenticate()" ref="myForm">
                   <q-input
                     label="User name"
                     standout="bg-primary text-secondary"
@@ -74,10 +74,9 @@
 </template>
 
 <script>
-import { ref, onBeforeUnmount } from "vue";
+import { ref } from "vue";
 import { matPerson } from "@quasar/extras/material-icons";
 import { useRouter } from "vue-router";
-import { useQuasar, QSpinnerFacebook } from "quasar";
 import { useAuthStore } from "stores/auth-store";
 export default {
   name: "LoginComponent",
@@ -86,54 +85,23 @@ export default {
       userName: "",
       password: ""
     });
-    const router = useRouter();
-    const $q = useQuasar();
     const myForm = ref(null);
     const authStore = useAuthStore();
-    let timer;
-
     function validate() {
       this.$refs.myForm.validate().then(success => {
         return success;
       });
     }
 
-    function showLoading() {
-      $q.loading.show({
-        spinner: QSpinnerFacebook,
-        spinnerColor: "primary",
-        spinnerSize: 140,
-        backgroundColor: "secondary",
-        messageColor: "black"
-      });
-      timer = setTimeout(() => {
-        $q.loading.hide();
-        timer = void 0;
-      }, 2000);
-    }
-
-
     function authenticate() {
-      showLoading();
-      if (authStore.login(formData.value.userName, formData.value.password)) {
-        return router.push("home");
-      }
+      authStore.login(formData.value.userName, formData.value.password);
     }
-
-    onBeforeUnmount(() => {
-      if (timer !== void 0) {
-        clearTimeout(timer);
-        $q.loading.hide();
-      }
-    });
     return {
       persistent: ref(false),
       matPerson,
       formData,
       myForm,
       validate,
-      showLoading,
-      authStore,
       authenticate
 
     };
