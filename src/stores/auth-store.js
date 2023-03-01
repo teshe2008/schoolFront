@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import { api } from "boot/axios";
-import { useQuasar } from "quasar";
 
 export const useAuthStore = defineStore("auth", {
   state: () => {
@@ -25,7 +24,7 @@ export const useAuthStore = defineStore("auth", {
           useAuthStore().$state.isLoggedIn = true;
           localStorage.setItem("isLoggedIn", true);
           if (useAuthStore().$state.isLoggedIn) {
-            location.reload();
+            this.router.push("home");
           }
         }
       }).catch(error => {
