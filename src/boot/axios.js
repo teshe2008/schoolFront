@@ -1,6 +1,5 @@
 import { boot } from "quasar/wrappers";
 import axios from "axios";
-import { useAuthStore } from "stores/auth-store";
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -8,7 +7,7 @@ import { useAuthStore } from "stores/auth-store";
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const token = useAuthStore().authUser;
+const token = localStorage.getItem("authUser");
 const api = axios.create({
     baseURL: "http://127.0.0.1:8000/api",
     withCredentials: true,
