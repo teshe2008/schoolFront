@@ -5,9 +5,9 @@
       class="bg-primary text-secondary"
       @click="persistent = true"
     />
-    <q-dialog v-model="persistent" persistent transition-show="rotate" transition-hide="rotate">
+    <q-dialog v-model="persistent" persistent >
       <q-card
-        style="max-width: 750px;min-width: 650px;" id="loginModal">
+        style="width: 600px; min-height: 300px" >
         <q-card-section>
           <q-card-actions>
             <q-toolbar-title class="text-secondary">Login</q-toolbar-title>
@@ -15,19 +15,21 @@
                    class="float-right text-secondary" />
           </q-card-actions>
         </q-card-section>
+<!--        <q-separator />-->
 
         <q-card-section class="q-pt-none">
-          <div class="row">
-            <div class="col">
-            </div>
-            <div class="col-7">
-              <q-card class="content-center content-center">
+<!--          <div class="row">-->
+<!--            <div class="col">-->
+<!--            </div>-->
+<!--            <div class="col-7">-->
+<!--              <q-card class="content-center content-center">-->
                 <q-icon :name="matPerson" size="8em" class="bg-secondary text-white q-ma-sm"
                         style="border-radius: 50%; margin-left: 35%;" />
                 <q-form class="bg-white q-pa-lg" @submit="authenticate()" ref="myForm">
                   <q-input
                     label="User name"
-                    standout="bg-primary text-secondary"
+                    autocomplete
+                    outlined
                     class="q-mb-sm"
                     type="text"
                     v-model="formData.userName"
@@ -41,7 +43,8 @@
                   </q-input>
                   <q-input
                     label="Password"
-                    standout="bg-primary text-secondary"
+                    autocomplete
+                    outlined
                     type="password"
                     v-model="formData.password"
                     lazy-rules
@@ -63,9 +66,9 @@
                   <span>forgot password?</span>
                   <router-link to="login">reset</router-link>
                 </span>
-              </q-card>
-            </div>
-          </div>
+<!--              </q-card>-->
+<!--            </div>-->
+<!--          </div>-->
 
         </q-card-section>
       </q-card>
