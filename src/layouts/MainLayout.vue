@@ -17,7 +17,11 @@
           </q-avatar>
           Title
         </q-toolbar-title>
-        <q-btn dense icon="person" glossy color="primary" round>
+
+        <q-btn round flat  class="bg-white">
+          <q-avatar size="36px">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+          </q-avatar>
           <q-menu>
             <div class="row no-wrap q-pa-md">
               <div class="column">

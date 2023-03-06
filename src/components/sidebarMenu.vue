@@ -107,7 +107,7 @@ const menuList = ref([
     label: "Users",
     group: "menu",
     subItems: [{
-      icon: "persons",
+
       iconColor: "white",
       hasExpansion: false,
       label: "users"
