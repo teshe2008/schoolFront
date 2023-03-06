@@ -2,17 +2,17 @@
   <div class="q-pa-md q-gutter-sm">
     <q-btn
       label="login"
-      class="bg-primary text-secondary"
+      class="active-button"
       @click="persistent = true"
+      push
     />
     <q-dialog v-model="persistent" persistent >
       <q-card
         style="width: 600px; min-height: 300px" >
         <q-card-section>
           <q-card-actions>
-            <q-toolbar-title class="text-secondary">Login</q-toolbar-title>
-            <q-btn rounded v-close-popup round dense icon="close" icon-right="true"
-                   class="float-right text-secondary" />
+            <q-toolbar-title >Login</q-toolbar-title>
+            <q-btn v-close-popup  flat class="bg-white" icon="close"/>
           </q-card-actions>
         </q-card-section>
 <!--        <q-separator />-->
@@ -24,7 +24,7 @@
 <!--            <div class="col-7">-->
 <!--              <q-card class="content-center content-center">-->
                 <q-icon :name="matPerson" size="8em" class="bg-secondary text-white q-ma-sm"
-                        style="border-radius: 50%; margin-left: 35%;" />
+                        style="border-radius: 50%; margin-left: 40%;" />
                 <q-form class="bg-white q-pa-lg" @submit="authenticate()" ref="myForm">
                   <q-input
                     label="User name"
@@ -50,16 +50,17 @@
                     lazy-rules
                     :rules="[ val=>!!val || 'field can not be empty']"
                   >
+
                     <template v-slot:append>
                       <q-icon name="key" />
                     </template>
                   </q-input>
                   <q-btn
-                    class="text-white bg-primary q-ma-sm text-center q-ml-auto q-ml-lg"
+                    class="active-button"
                     label="login"
                     type="submit"
-                    style="margin-left: 40%;"
-                  />
+                    style="margin-left: 35%; width: 150px"
+                    push />
                 </q-form>
 
                 <span class="content-center items-center q-ma-md">

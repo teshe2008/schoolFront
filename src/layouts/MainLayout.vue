@@ -17,6 +17,7 @@
           </q-avatar>
           Title
         </q-toolbar-title>
+
         <q-btn round flat  class="bg-white">
           <q-avatar size="36px">
             <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
