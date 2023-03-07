@@ -1,1 +1,10 @@
 // app global css in SCSS form
+
+.active-button {
+  background-color: $primary;
+  color: $secondary;
+}
+.active-button:hover {
+  background-color: $secondary;
+  color: $primary;
+}

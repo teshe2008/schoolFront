@@ -3,9 +3,7 @@
     <q-header reveal elevated class="bg-white text-white">
       <q-toolbar>
         <q-toolbar-title>
-          <q-avatar>
-            <img alt="logo" src="../assets/logo.png">
-          </q-avatar>
+          <img class="logo" src="../assets/sekela.png">
         </q-toolbar-title>
         <router-link to="/" class="q-link q-router-link--active text-secondary">Home</router-link>
         <router-link to="#about" class="q-ma-md q-link text-secondary">About</router-link>
@@ -27,9 +25,7 @@
               <div class="row row-md">
                 <div class="col col-auto">
                   <a href="/">
-                    <q-avatar>
-                      <img  alt="logo" src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-                    </q-avatar>
+                    <img class="logo" src="../assets/sekela.png">
                   </a>
                   <p>Brought to you By Support Education PLC</p>
                   <div>
@@ -102,5 +98,12 @@ export default defineComponent({
 <style scoped>
 #top {
 
+}
+
+.logo {
+  background-color: transparent;
+  width:199px;
+  height:63px;
+  margin-left:3% !important;
 }
 </style>
