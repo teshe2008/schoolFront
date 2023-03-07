@@ -1,6 +1,11 @@
 <template>
-  <q-scroll-area class="fit bg-primary" style="height: calc(100% - 150px); margin-top: 150px;">
-    <q-list>
+  <q-scroll-area
+    :thumb-style="thumbStyle"
+    :bar-style="barStyle"
+    class="bg-primary" style="height: calc(100% - 150px); margin-top: 150px;"
+    :horizontal-thumb-style="{opacity:0}"
+  >
+    <q-list padding>
       <template v-for="(menuItem, index) in menuList" :key="index">
         <div v-if="menuItem.hasExpansion">
           <q-expansion-item clickable
@@ -182,9 +187,30 @@ const menuList = ref([
 export default {
   name: "sidebarMenu",
   setup() {
+    const thumbStyle = ref({
+      right: "3px",
+      borderRadius: "2px",
+      backgroundColor: "#027be3",
+      width: "3px",
+      opacity: 0.75
+    });
+    const barStyle = ref({
+      right: "2px",
+      borderRadius: "5px",
+      backgroundColor: "#027be3",
+      width: "6px",
+      opacity: 0.2,
+      marginTop: "-3px",
+      marginBottom: "-3px",
+      paddingTop: "3px",
+      paddingBottom: "3px"
+    });
+
     return {
       drawer: ref(false),
-      menuList
+      menuList,
+      thumbStyle,
+      barStyle
     };
   }
 };
