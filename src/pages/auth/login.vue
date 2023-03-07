@@ -33,12 +33,18 @@
                     class="q-mb-sm"
                     type="text"
                     v-model="formData.userName"
+                    bottom-slots
                     lazy-rules
                     :rules="[ val=>!!val || 'field can not be empty',
                     val=>val.length>=5 || 'min character should be 5']"
                   >
                     <template v-slot:append>
                       <q-icon name="person" />
+                    </template>
+                    <template v-slot:error>
+                      <div v-if=" errorMessage.value.userNameError!==null">
+
+                      </div>
                     </template>
                   </q-input>
                   <q-input
@@ -50,7 +56,6 @@
                     lazy-rules
                     :rules="[ val=>!!val || 'field can not be empty']"
                   >
-
                     <template v-slot:append>
                       <q-icon name="key" />
                     </template>
@@ -80,8 +85,9 @@
 <script>
 import { ref } from "vue";
 import { matPerson } from "@quasar/extras/material-icons";
-import { useRouter } from "vue-router";
 import { useAuthStore } from "stores/auth-store";
+import { useQuasar } from "quasar";
+
 export default {
   name: "LoginComponent",
   setup() {
@@ -90,23 +96,41 @@ export default {
       password: ""
     });
     const myForm = ref(null);
-    const authStore = useAuthStore();
+    const $q = useQuasar();
+    const errorMessage = ref([{
+      userNameError: null,
+      passwordError: null
+    }]);
+
     function validate() {
       this.$refs.myForm.validate().then(success => {
         return success;
       });
     }
 
-    function authenticate() {
-      authStore.login(formData.value.userName, formData.value.password);
+
+    async function authenticate() {
+      await useAuthStore().login(formData.value.userName, formData.value.password);
     }
+
+    function showLoading() {
+      $q.loading.show();
+      // hiding in 2s
+      let timer = setTimeout(() => {
+        $q.loading.hide();
+        timer = void 0;
+      }, 2000);
+    }
+
     return {
       persistent: ref(false),
       matPerson,
       formData,
       myForm,
+      showLoading,
       validate,
-      authenticate
+      authenticate,
+      errorMessage
 
     };
   },
@@ -117,11 +141,5 @@ export default {
 </script>
 
 <style scoped>
-#loginModal {
-  background: url("../../assets/background/login_pageBackground.jpg") fixed;
-  width: 750px !important;
-  height: 500px;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
+
 </style>
