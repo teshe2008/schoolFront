@@ -11,6 +11,7 @@
           <q-expansion-item clickable
                             :group="menuItem.group"
                             exact target="_self" :to="menuItem.href"
+                            v-if="canAny(menuItem.abilities)"
           >
             <template v-slot:header>
               <q-item-section avatar :to="menuItem.href">
@@ -37,7 +38,7 @@
                   </q-expansion-item>
                 </div>
                 <div v-else>
-                  <q-item clickable v-ripple :to="submenus.href" exact>
+                  <q-item clickable v-ripple :to="submenus.href" exact v-if="can(submenus.ability)">
                     <q-item-section avatar>
                       <q-icon :name="submenus.icon" :color="submenus.iconColor" />
                     </q-item-section>
@@ -53,7 +54,7 @@
         </div>
         <div v-else>
           <q-item clickable v-ripple :to="menuItem.href" target="_self" exact exact-active-class="active"
-                  @click="menuItem.href">
+                  @click="menuItem.href" v-if="can(menuItem.ability)">
             <q-item-section avatar>
               <q-icon :name="menuItem.icon" :color="menuItem.iconColor" />
             </q-item-section>
@@ -79,6 +80,7 @@
 
 <script>
 import { ref } from "vue";
+import { can, canAny } from "src/AbilityGuard";
 
 const menuList = ref([
   {
@@ -87,7 +89,8 @@ const menuList = ref([
     hasExpansion: false,
     label: "Dashboard",
     group: "menu",
-    href: "/home"
+    href: "/home",
+    ability: "Dashboard-view"
   },
   {
     icon: "school",
@@ -95,13 +98,15 @@ const menuList = ref([
     hasExpansion: true,
     label: "Schools",
     group: "menu",
+    abilities: ["Schools-view"],
     subItems: [
       {
         icon: "school",
         iconColor: "white",
         hasExpansion: false,
         label: "school setup",
-        href: "/school"
+        href: "/school",
+        ability: "Schools-view"
       }
     ]
   },
@@ -111,17 +116,21 @@ const menuList = ref([
     hasExpansion: true,
     label: "Users",
     group: "menu",
+    abilities: ["Users-view"],
     subItems: [{
-
+      icon: "person",
       iconColor: "white",
       hasExpansion: false,
-      label: "users"
+      label: "users",
+      href: "",
+      ability: "Users-view"
     }]
   },
   {
     icon: "cast_for_education",
     iconColor: "white",
     hasExpansion: true,
+    abilities: ["school-view"],
     group: "menu",
     label: "Staffs"
   },
@@ -129,6 +138,7 @@ const menuList = ref([
     icon: "diversity_3",
     iconColor: "white",
     hasExpansion: true,
+    abilities: ["school-view"],
     group: "menu",
     label: "Students"
   },
@@ -136,6 +146,7 @@ const menuList = ref([
     icon: "upcoming",
     iconColor: "white",
     hasExpansion: true,
+    abilities: ["school-view"],
     group: "menu",
     label: "Academic"
   },
@@ -143,6 +154,7 @@ const menuList = ref([
     icon: "event_note",
     iconColor: "white",
     hasExpansion: true,
+    abilities: ["school-view"],
     group: "menu",
     label: "Schedule"
   },
@@ -150,6 +162,7 @@ const menuList = ref([
     icon: "event_available",
     iconColor: "white",
     hasExpansion: true,
+    abilities: ["school-view"],
     group: "menu",
     label: "Attendance"
   },
@@ -157,6 +170,7 @@ const menuList = ref([
     icon: "grading",
     iconColor: "white",
     hasExpansion: true,
+    abilities: ["school-view"],
     group: "menu",
     label: "Grading"
   },
@@ -164,6 +178,7 @@ const menuList = ref([
     icon: "timer",
     iconColor: "white",
     hasExpansion: true,
+    abilities: ["school-view"],
     group: "menu",
     label: "Notifications"
   },
@@ -171,6 +186,7 @@ const menuList = ref([
     icon: "tune",
     iconColor: "white",
     hasExpansion: true,
+    abilities: ["school-view"],
     group: "menu",
     label: "Settings"
   },
@@ -178,6 +194,7 @@ const menuList = ref([
     icon: "sticky_note_2",
     iconColor: "white",
     hasExpansion: true,
+    abilities: ["school-view"],
     group: "menu",
     label: "Reports"
   }
@@ -210,7 +227,9 @@ export default {
       drawer: ref(false),
       menuList,
       thumbStyle,
-      barStyle
+      barStyle,
+      can,
+      canAny
     };
   }
 };
