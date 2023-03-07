@@ -7,12 +7,11 @@ import axios from "axios";
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const token = localStorage.getItem("authUser");
 const api = axios.create({
     baseURL: "http://127.0.0.1:8000/api",
     withCredentials: true,
     headers: {
-      "Authorization": "Bearer " + token
+      Authorization: "Bearer " + localStorage.getItem("authUser")
     }
   })
 ;
