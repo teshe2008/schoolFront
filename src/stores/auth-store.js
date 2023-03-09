@@ -14,32 +14,61 @@ export const useAuthStore = defineStore("auth", {
     currentUser: (state) => state.authUser
   },
   actions: {
-
     async login(userName, Password) {
-      await api.post("/login", {
-        "user_name": userName,
-        "password": Password
-      }).then(response => {
+       api.post("/login", {
+         "user_name": userName,
+         "password": Password
+       }).then(response => {
         if (response.status === 200) {
           localStorage.setItem("authUser", response.data.token);
+          localStorage.setItem("abilities", response.data.abilities);
           useAuthStore().$state.isLoggedIn = true;
+          useAuthStore().$state.authUser = response.data.token;
           localStorage.setItem("isLoggedIn", true);
-          if (useAuthStore().$state.isLoggedIn) {
-            return this.router.push("home");
-          }
+          api.interceptors.request.use((config) => {
+            const token = localStorage.getItem("authUser");
+            if (token) {
+              config.headers.Authorization = `Bearer ${token}`;
+            }
+            return config;
+          });
+          return this.router.push("home");
+        } else {
+          console.log(1);
+          Notify.create({
+            message: response.statusText,
+            position: "top-right",
+            type: "negative"
+          });
         }
       }).catch(error => {
-        console.log(error);
-        return false;
-      });
+         if (error.response) {
+           Notify.create({
+             message: error.response.data + "with status" + error.response.status,
+             position: "top-right",
+             type: "negative"
+           });
+         } else if (error.request) {
+           console.log(3);
+           Notify.create({
+             message: error.request.data,
+             position: "top-right",
+             type: "negative"
+           });
+         } else {
+           console.log(4);
+           Notify.create({
+             message: error.message,
+             position: "top-right",
+             type: "negative"
+           });
+         }
+       });
     },
     async logout() {
       await api.post("/logout").then(response => {
         if (response.status === 200) {
-          useAuthStore().$state.authUser = null;
-          useAuthStore().$state.isLoggedIn = false;
-          localStorage.removeItem("authUser");
-          localStorage.removeItem("isLoggedIn");
+          localStorage.clear();
           return this.router.push({ name: "welcome" });
         } else {
           Notify.create({
