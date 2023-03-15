@@ -34,7 +34,6 @@ export const useAuthStore = defineStore("auth", {
           });
           return this.router.push("home");
         } else {
-          console.log(1);
           Notify.create({
             message: response.statusText,
             position: "top-right",
@@ -49,14 +48,12 @@ export const useAuthStore = defineStore("auth", {
              type: "negative"
            });
          } else if (error.request) {
-           console.log(3);
            Notify.create({
              message: error.request.data,
              position: "top-right",
              type: "negative"
            });
          } else {
-           console.log(4);
            Notify.create({
              message: error.message,
              position: "top-right",
