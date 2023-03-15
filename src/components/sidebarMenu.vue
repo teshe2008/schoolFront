@@ -53,8 +53,8 @@
           </q-expansion-item>
         </div>
         <div v-else>
-          <q-item clickable v-ripple :to="menuItem.href" target="_self" exact exact-active-class="active"
-                  @click="menuItem.href" v-if="can(menuItem.ability)">
+          <q-item clickable v-ripple :to="menuItem.href" exact exact-active-class="active"
+                  v-if="can(menuItem.ability)">
             <q-item-section avatar>
               <q-icon :name="menuItem.icon" :color="menuItem.iconColor" />
             </q-item-section>
@@ -89,7 +89,7 @@ const menuList = ref([
     hasExpansion: false,
     label: "Dashboard",
     group: "menu",
-    href: "/home",
+    href: "dashboard",
     ability: "Dashboard-view"
   },
   {
@@ -105,8 +105,32 @@ const menuList = ref([
         iconColor: "white",
         hasExpansion: false,
         label: "school setup",
-        href: "/school",
+        href: "school",
         ability: "Schools-view"
+      },
+      {
+        icon: "school",
+        iconColor: "white",
+        hasExpansion: false,
+        label: "School Branch",
+        href: "school",
+        ability: "SchoolBranch-view"
+      },
+      {
+        icon: "building",
+        iconColor: "white",
+        hasExpansion: false,
+        label: "Buildings",
+        href: "school",
+        ability: "Building-view"
+      },
+      {
+        icon: "Calendar",
+        iconColor: "white",
+        hasExpansion: false,
+        label: "Buildings",
+        href: "school",
+        ability: "Calendar-view"
       }
     ]
   },
@@ -116,53 +140,188 @@ const menuList = ref([
     hasExpansion: true,
     label: "Users",
     group: "menu",
-    abilities: ["Users-view"],
+    abilities: ["Users-view", "Role-view"],
     subItems: [{
       icon: "person",
       iconColor: "white",
       hasExpansion: false,
       label: "users",
-      href: "",
+      href: "users",
       ability: "Users-view"
-    }]
+    },
+      {
+        icon: "Role",
+        iconColor: "white",
+        hasExpansion: false,
+        label: "Role",
+        href: "",
+        ability: "Role-view"
+      },
+      {
+        icon: "Permission",
+        iconColor: "white",
+        hasExpansion: false,
+        label: "Permissions",
+        href: "",
+        ability: "Permission-view"
+      }
+    ]
   },
   {
     icon: "cast_for_education",
     iconColor: "white",
     hasExpansion: true,
-    abilities: ["school-view"],
+    abilities: ["Staffs-view", "staffEnrollments-view"],
     group: "menu",
-    label: "Staffs"
+    label: "Staffs",
+    subItems: [
+      {
+        icon: "diversity_3",
+        iconColor: "white",
+        hasExpansion: false,
+        ability: "Staffs-view",
+        group: "menu",
+        label: "Staffs"
+      },
+      {
+        icon: "diversity_3",
+        iconColor: "white",
+        hasExpansion: false,
+        ability: "staffEnrollments-view",
+        group: "menu",
+        label: "Staffs Enrollments"
+      }
+    ]
   },
   {
     icon: "diversity_3",
     iconColor: "white",
     hasExpansion: true,
-    abilities: ["school-view"],
+    abilities: ["school-view", "StudentHealthies-view", "StudentsEnrollments-view", "Parents-view"],
     group: "menu",
-    label: "Students"
+    label: "Students",
+    subItems: [
+      {
+        icon: "diversity_3",
+        iconColor: "white",
+        hasExpansion: false,
+        ability: "Students-view",
+        group: "menu",
+        label: "Students"
+      },
+      {
+        icon: "diversity_3",
+        iconColor: "white",
+        hasExpansion: false,
+        ability: "StudentHealthies-view",
+        group: "menu",
+        label: "Student Healthy"
+      },
+      {
+        icon: "diversity_3",
+        iconColor: "white",
+        hasExpansion: false,
+        ability: "StudentsEnrollments-view",
+        group: "menu",
+        label: "Student Enrollments"
+      },
+      {
+        icon: "diversity_3",
+        iconColor: "white",
+        hasExpansion: false,
+        ability: "Parents-view",
+        group: "menu",
+        label: "Parents"
+      }
+    ]
   },
   {
     icon: "upcoming",
     iconColor: "white",
     hasExpansion: true,
-    abilities: ["school-view"],
+    abilities: [
+      "AcademicBreakdown-view", "Shifts-view", "AcademicYear-view", "Semesters-view", "Quarters-view", "Grade-view", "Subject-view"
+    ],
     group: "menu",
-    label: "Academic"
+    label: "Academic",
+    subItems: [
+      {
+        icon: "upcoming",
+        iconColor: "white",
+        hasExpansion: false,
+        ability: "AcademicYear-view",
+        group: "menu",
+        label: "Academic Year"
+      },
+      {
+        icon: "upcoming",
+        iconColor: "white",
+        hasExpansion: false,
+        ability: "Shifts-view",
+        group: "menu",
+        label: "Shifts"
+      },
+      {
+        icon: "upcoming",
+        iconColor: "white",
+        hasExpansion: false,
+        ability: "Grade-view",
+        group: "menu",
+        label: "Grades"
+      },
+      {
+        icon: "upcoming",
+        iconColor: "white",
+        hasExpansion: false,
+        ability: "Section-view",
+        group: "menu",
+        label: "Grades"
+      }
+    ]
   },
   {
     icon: "event_note",
     iconColor: "white",
     hasExpansion: true,
-    abilities: ["school-view"],
+    abilities: ["Period-view", "TeacherAllocation-view", "Timetable-view", "OffDay-view"],
     group: "menu",
-    label: "Schedule"
+    label: "Schedule",
+    subItems: [{
+      icon: "event_note",
+      iconColor: "white",
+      hasExpansion: false,
+      ability: "Period-view",
+      group: "menu",
+      label: "Periods"
+    }, {
+      icon: "event_note",
+      iconColor: "white",
+      hasExpansion: false,
+      ability: "TeacherAllocation-view",
+      group: "menu",
+      label: "Teacher Allocations"
+    }, {
+      icon: "event_note",
+      iconColor: "white",
+      hasExpansion: false,
+      ability: "OffDay-view",
+      group: "menu",
+      label: "Off Days"
+    }, {
+      icon: "event_note",
+      iconColor: "white",
+      hasExpansion: false,
+      ability: "Timetable-view",
+      group: "menu",
+      label: "Time Table"
+    }
+    ]
   },
   {
     icon: "event_available",
     iconColor: "white",
     hasExpansion: true,
-    abilities: ["school-view"],
+    abilities: ["Student_attendances-view", "Staff_attendances-view"],
     group: "menu",
     label: "Attendance"
   },
