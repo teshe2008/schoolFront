@@ -1,10 +1,13 @@
 <template>
-<div></div>
+  <q-page padding>
+    this is dashboard
+  </q-page>
 </template>
+
 
 <script>
 export default {
-  name: "EditUser"
+  name: "Dash-board",
 };
 </script>
 
