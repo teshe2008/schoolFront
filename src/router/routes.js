@@ -1,3 +1,5 @@
+import Dashboard from "pages/Dashboard.vue";
+
 const routes = [
   {
     path: "/",
@@ -11,6 +13,24 @@ const routes = [
     path: "/home",
     name: "home",
     component: () => import("layouts/MainLayout.vue"),
+    meta: {
+      requiresAuth: true
+    },
+    children: [
+      {
+        path: "",
+        component: () => import("pages/Home.vue")
+      },
+      {
+        path: "/dashboard",
+        component: Dashboard
+      }
+    ]
+  },
+  {
+    path: "/dashboard",
+    name: "dashboard",
+    component: () => import("pages/Dashboard.vue"),
     meta: {
       requiresAuth: true
     }
