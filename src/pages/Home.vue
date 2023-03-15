@@ -1,10 +1,12 @@
 <template>
-<div></div>
+<q-page padding>
+  this is home
+</q-page>
 </template>
 
 <script>
 export default {
-  name: "createUser"
+  name: "HomePage"
 };
 </script>
 
