@@ -20,7 +20,7 @@
 
         <q-btn round flat  class="bg-white">
           <q-avatar size="36px">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png" alt="" />
           </q-avatar>
           <q-menu>
             <div class="row no-wrap q-pa-md">
@@ -56,10 +56,8 @@
       <!-- drawer content -->
     </q-drawer>
 
-    <q-page-container>
-      <slot id="mainContent">
-        <router-view />
-      </slot>
+    <q-page-container content="contents">
+      <router-view />
     </q-page-container>
     <q-footer elevated class="bg-white text-white">
       <q-toolbar>
@@ -91,6 +89,6 @@ export default {
 
 <style>
 .right-bordered {
-  border-radius: 0% 10% 10% 0;
+  border-radius: 0 10% 10% 0;
 }
 </style>
