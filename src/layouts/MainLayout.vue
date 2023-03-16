@@ -17,7 +17,7 @@
           </q-avatar>
           Title
         </q-toolbar-title>
-
+        <language-switcher />
         <q-btn round flat  class="bg-white">
           <q-avatar size="36px">
             <img src="https://cdn.quasar.dev/img/boy-avatar.png" alt="" />
@@ -71,9 +71,10 @@
 import { ref } from "vue";
 import LogoutComponent from "pages/auth/logout.vue";
 import SidebarMenu from "components/sidebarMenu.vue";
+import LanguageSwitcher from "components/language-switcher.vue";
 
 export default {
-  components: { SidebarMenu, LogoutComponent },
+  components: { LanguageSwitcher, SidebarMenu, LogoutComponent },
   setup() {
     const leftDrawerOpen = ref(false);
 

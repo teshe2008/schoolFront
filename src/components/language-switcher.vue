@@ -1,37 +1,48 @@
 <template>
-  <q-select
-    v-model="locale"
-    :options="localeOptions"
-    label="Quasar Language"
-    dense
-    borderless
-    emit-value
-    map-options
-    options-dense
-    style="min-width: 150px"
-  />
-  <!-- ...... -->
+  <q-btn-dropdown
+    icon="translate"
+    flat
+    class="text-secondary"
+  >
+    <q-list>
+      <q-item clickable v-for="item in languageOptions" v-model="selectedLanguage"
+              v-bind:key="item.value" v-ripple class="q-list--bordered">
+        <q-item-section @click="setLanguage(item.value)" flat>
+          <q-item-label> {{ item.label }} <span :class="'fi fi-'+item.flag" /></q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-list>
+
+  </q-btn-dropdown>
 </template>
 
 <script>
-import { useI18n } from "vue-i18n";
-
+import "/node_modules/flag-icons/css/flag-icons.min.css";
 export default {
   name: "language-switcher",
-  setup() {
-    const { locale } = useI18n({ useScope: "global" });
-
+  data() {
     return {
-      locale,
-      localeOptions: [
-        { value: "en-US", label: "English" },
-        { value: "am-ET", label: "Amharic" }
+      selectedLanguage: null,
+      languageOptions: [
+        { label: "English", value: "en-US", flag: "us" },
+        { label: "Amharic", value: "am-ET", flag: "et" }
       ]
     };
+  },
+  mounted() {
+    this.selectedLanguage = this.$q.lang.getLocale();
+  },
+  methods: {
+    setLanguage: function(val) {
+      this.$q.loading.show({
+        text: "wait..."
+      });
+      let timer = setTimeout(() => {
+        this.$q.loading.hide();
+        timer = void 0;
+      }, 500);
+      return this.$q.lang.set(val);
+    }
   }
-};
+}
 </script>
-
-<style scoped>
-
-</style>
