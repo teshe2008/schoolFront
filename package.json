@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "aos": "^2.3.4",
     "axios": "^0.21.1",
     "flag-icons": "^6.6.6",
     "pinia": "^2.0.11",

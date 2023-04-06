@@ -3,10 +3,11 @@
     icon="translate"
     flat
     class="text-secondary"
+    v-model="menu"
   >
     <q-list>
-      <q-item clickable v-for="item in languageOptions" v-model="selectedLanguage"
-              v-bind:key="item.value" v-ripple class="q-list--bordered">
+      <q-item clickable v-for="item in languageOptions"
+              v-bind:key="item.value" v-ripple class="q-list--bordered" v-model="menu">
         <q-item-section @click="setLanguage(item.value)" flat>
           <q-item-label> {{ item.label }} <span :class="'fi fi-'+item.flag" /></q-item-label>
         </q-item-section>
@@ -26,7 +27,8 @@ export default {
       languageOptions: [
         { label: "English", value: "en-US", flag: "us" },
         { label: "Amharic", value: "am-ET", flag: "et" }
-      ]
+      ],
+      menu: false
     };
   },
   mounted() {
